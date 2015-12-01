@@ -13,21 +13,27 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawer;
     private Toolbar toolbar;
+    private GraphView graph;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        getViews();
         setSupportActionBar(toolbar);
 
-        getViews();
         setNavigationDrawer();
+        setGraph();
     }
 
     @Override
@@ -88,7 +94,8 @@ public class MainActivity extends AppCompatActivity
     private void getViews() {
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        toolbar =  (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        graph = (GraphView) findViewById(R.id.graph);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -100,7 +107,7 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    private void setNavigationDrawer(){
+    private void setNavigationDrawer() {
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -109,5 +116,23 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    private void setGraph() {
+
+        LineGraphSeries<DataPoint> lineGraphSeries;
+        lineGraphSeries = new LineGraphSeries<>(new DataPoint[]{
+                new DataPoint(0, 1),
+                new DataPoint(1, 5),
+                new DataPoint(4, 1),
+                new DataPoint(5, 2),
+                new DataPoint(7, 6),
+                new DataPoint(8, 2),
+                new DataPoint(10, 2),
+                new DataPoint(12, 4)
+
+        });
+
+        graph.addSeries(lineGraphSeries);
     }
 }
